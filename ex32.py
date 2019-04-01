@@ -18,6 +18,7 @@ for i in change:
 # we can also build lists, first start with an empty one
 #elements = []
 
+#skipping the next for-loop per study drill #2
 elements = range(0,6)
 
 # then use the range array funtion to do 0 to 5 counts

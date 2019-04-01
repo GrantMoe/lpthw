@@ -19,6 +19,7 @@ for i in change:
 #elements = []
 
 #skipping the next for-loop per study drill #2
+print("Adding {} to the list.".format(range(0,6)))
 elements = range(0,6)
 
 # then use the range array funtion to do 0 to 5 counts

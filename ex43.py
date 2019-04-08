@@ -12,13 +12,22 @@ class Engine(object):
     self.scene_map = scene_map
 
   def play(self):
-    self.scene_map.opening_scene()
+    current_scene = self.scene_map.opening_scene()
+    end_scene = self.scene_map.next_scene('game_over')
+
+    while current_scene != end_scene:
+      print('-' * 10)
+      next_scene = current_scene.enter()
+      current_scene = self.scene_map.next_scene(next_scene)
+
+    exit(0)
+      
 
 class Death(Scene):
 
   def enter(self):
     print("\n\tYou are dead now.\n")
-    exit(0)
+    return('game_over')
 
 
 class CentralCorridor(Scene):
@@ -68,7 +77,7 @@ class TheBridge(Scene):
     choice = input("> ")
 
     if 'plant' in choice:
-      print("\n YOU PLANT THE BOMB!!!!!!!!\n")
+      print("\n YOU PLANT THE BOMB!!!!!!!!")
       print("\n Do you stand around to watch it explode, or do you head for the escape pods?")
 
       choice = input("> ")
@@ -78,37 +87,49 @@ class TheBridge(Scene):
       else:
         print("\nThe bomb explodes, and so do you.\n")
         return('death')
+    else:
+      print("\nThe bomb takes umbrage and decides to trigger itself.\n")
+      return('death')
     
 
 class EscapePod(Scene):
 
   def enter(self):
-    print("\nYou run to the escape pods, and are lucky enough to find one left.")
+    print("\nYou run to the escape pods.")
+    print("There is one left.")
     print("It literally has your name on it.")   
-    print("\n\t\tCLIFFHANGER ENDING!\n\n")
-    exit(0)
+    print("\n\t\tCLIFFHANGER ENDING!\n")
+    return('game_over')
+
+
+class GameOver(Scene):
+
+  def enter(self):
+    print("\n\t\tGAME OVER\n\n")
+    return('game_over')
 
 
 class Map(object):
+
+  scenes = {
+    'death': Death(),
+    'central_corridor': CentralCorridor(),
+    'laser_weapon_armory': LaserWeaponArmory(),
+    'the_bridge': TheBridge(),
+    'escape_pod': EscapePod(),
+    'game_over': GameOver()
+}
 
   def __init__(self, start_scene):
     self.start_scene = start_scene
     
   def next_scene(self, scene_name):
-    print('-' * 10)
-    self.next_scene(scenes[scene_name].enter())
+    return(self.scenes[scene_name])
 
   def opening_scene(self):
-    self.next_scene(scenes[self.start_scene].enter())
-    
+    return(self.scenes[self.start_scene])
 
-scenes = {
-'death': Death(),
-'central_corridor': CentralCorridor(),
-'laser_weapon_armory': LaserWeaponArmory(),
-'the_bridge': TheBridge(),
-'escape_pod': EscapePod()
-}
+
 
 a_map = Map('central_corridor')
 a_game = Engine(a_map)

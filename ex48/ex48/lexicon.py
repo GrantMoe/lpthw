@@ -22,10 +22,3 @@ lexicon = {
     'stop': ['the', 'in', 'of', 'from', 'at', 'it'],
     'noun': ['door', 'bear', 'princess', 'cabinet'],
 }
-
-#words = input()
-#print(words.split())
-#split_words = words.split()
-#print(scan(words))
-#for word in split_words:
-#    print(word)
